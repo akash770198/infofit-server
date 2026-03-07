@@ -14,7 +14,7 @@ router.post("/contact", (req, res) => {
     "INSERT INTO leads (name, email, company, phone, message) VALUES (?, ?, ?, ?, ?)",
     [name, email, company, phone || null, message],
     (err, result) => {
-      if (err) return res.status(500).json({ error: "Something went wrong" });
+      if (err) return res.status(500).json({ error: "Something went wrong", debug: err.message });
 
       res.json({ success: true });
     }
