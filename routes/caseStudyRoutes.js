@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/case-studies", (req, res) => {
   db.query(
-    "SELECT cs.*, c.name AS client_name FROM case_studies cs LEFT JOIN clients c ON cs.client_id = c.id ORDER BY cs.created_at DESC",
+    "SELECT cs.*, c.name AS client_name, c.industry AS client_industry FROM case_studies cs LEFT JOIN clients c ON cs.client_id = c.id WHERE cs.is_featured = true ORDER BY cs.created_at DESC LIMIT 4",
     (err, results) => {
       if (err) return res.status(500).json({ error: "Something went wrong" });
 
@@ -16,7 +16,7 @@ router.get("/case-studies", (req, res) => {
 
 router.get("/case-studies/:slug", (req, res) => {
   db.query(
-    "SELECT cs.*, c.name AS client_name FROM case_studies cs LEFT JOIN clients c ON cs.client_id = c.id WHERE cs.slug = ?",
+    "SELECT cs.*, c.name AS client_name, c.industry AS client_industry FROM case_studies cs LEFT JOIN clients c ON cs.client_id = c.id WHERE cs.slug = ?",
     [req.params.slug],
     (err, results) => {
       if (err) return res.status(500).json({ error: "Something went wrong" });
